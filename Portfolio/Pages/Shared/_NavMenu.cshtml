@@ -1,0 +1,43 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Portfolio.Data.Identity
+@inject SignInManager<AplicationIdentityUser> SignInManager
+@inject UserManager<AplicationIdentityUser> UserManager
+
+<style>
+    .icon {
+        width: 23px;
+        height: 24px;
+        display: inline-block;
+        vertical-align: bottom;
+    }
+</style>
+
+<li class="nav-item">
+    <a class="nav-link text-white" asp-area="" asp-page="/Index">
+        <img src="Icons/free-icon-font-home-3917033 4.png" class="icon"></img>
+        Главная
+    </a>
+</li>
+@if (SignInManager.IsSignedIn(User))
+{
+    <li class="nav-item">
+        <a class="nav-link text-white" asp-area="" asp-page="/UploadFiles">
+            <img src="Icons/free-icon-font-edit-3917361 2.png" class="icon"></img>
+            Мероприятия
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-white" asp-area="" asp-page="/Actions">
+            <img src="Icons/free-icon-font-calendar-3917244 2.png" class="icon"></img>
+            Календарь
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-white" asp-area="" asp-page="/Portfolio">
+            <img src="Icons/free-icon-font-settings-3917058 2.png" class="icon"></img>
+            Портфолио
+        </a>
+    </li>
+}
+
+

@@ -1,0 +1,83 @@
+﻿@page
+@using Portfolio.Data.Identity
+@inject SignInManager<AplicationIdentityUser> SignInManager
+@model Portfolio.Pages.ActionFilesModel
+@{
+    ViewData["Title"] = "Upload Files";
+}
+<style>
+    .day{
+        width: 164px;
+        height: 105px;
+        background: #D9D9D9;
+        margin: 5px 5px;
+        padding-left: 3px;
+        font-weight: bold;
+    }
+    .day.other-month {
+        background: #F1F1F1;
+        color: #686161;
+    }
+
+    .day-header {
+        width: 164px;
+        height: 20px;
+        background-color: white;
+        font-weight: bold;
+        margin: 5px 5px;
+    }
+
+    .top-bar-index {
+        background-color: #2C2525;
+        height: 200px;
+        width: 105.7%;
+        margin-left: -5%;
+    }
+
+    .action-day{
+        background: #FFD089;
+    }
+</style>
+@if (SignInManager.IsSignedIn(User)){
+    <html>
+    <head>
+        <title>@ViewData["Title"]</title>
+    </head>
+    <body>
+        <div class="top-bar-index">
+            <h1 style="padding: 20px 40px; margin-left: 5%; color: white;">Календарь</h1>
+            <h2 style="padding: 20px 40px; margin-left: 5%; color: white; text-align: right;">@DateTime.Now.ToString("Y")</h2>
+        </div>
+        <br />
+        <div class="container text-center">
+            <div class="row g-0">
+                <div class="day-header text-start">ПН</div>
+                <div class="day-header text-start">ВТ</div>
+                <div class="day-header text-start">СР</div>
+                <div class="day-header text-start">ЧТ</div>
+                <div class="day-header text-start">ПТ</div>
+                <div class="day-header text-start">СБ</div>
+                <div class="day-header text-start">ВС</div>
+                @foreach (var day in Model.Calendar.Days)
+                {
+                    var otherMonthClass = day.Month != Model.Month ? "other-month" : "";
+                    @if  (Model.ActionsList.Any(n => int.Parse(n.Date.Substring(0, 4)) == day.Year &&
+                    int.Parse(n.Date.Substring(5, 2)) == day.Month &&
+                    int.Parse(n.Date.Substring(8, 2)) == day.Day)){
+                        <div class="day action-day text-start">
+                            @day.Day
+                            <br />
+                            @Model.ActionsList.First(n => int.Parse(n.Date.Substring(0, 4)) == day.Year &&
+                            int.Parse(n.Date.Substring(5, 2)) == day.Month &&
+                            int.Parse(n.Date.Substring(8, 2)) == day.Day).Name
+                        </div>
+                    }
+                    else{
+                    <div class="day @otherMonthClass text-start">@day.Day</div>
+                    }
+                }
+            </div>
+        </div>
+    </body>
+    </html>
+}

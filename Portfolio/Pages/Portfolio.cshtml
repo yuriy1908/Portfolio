@@ -1,0 +1,68 @@
+﻿@page
+@using Portfolio.Data.Identity
+@inject SignInManager<AplicationIdentityUser> SignInManager
+@model Portfolio.Pages.PortfolioModel
+@{
+    ViewData["Title"] = "Upload Files";
+}
+<style>
+    .note-button {
+        width: 30%;
+        height: 50px;
+        border-radius: 15px;
+        font-size: 24px;
+        font-weight: 400;
+        margin: 0px 30px;
+        background: #82CDEE;
+        color: black;
+    }
+    .note-button:hover {
+        color: black;
+    }
+</style>
+@if (SignInManager.IsSignedIn(User)){
+    <html>
+    <head>
+        <title>@ViewData["Title"]</title>
+    </head>
+    <body>
+        <h1 style="padding: 20px 40px;">Портфолио</h1>
+        <form method="post" enctype="multipart/form-data">
+            <div>
+                <input type="file" style="margin: 0px 30px;" id="FileUploadControl" name="FileUploadControl" />
+                <br />
+                <br />
+                <button type="submit" class="note-button">Загрузить файл</button>
+                <br />
+                <p>@Model.StatusMessage</p>
+            </div>
+        </form>
+        @if (Model.Files != null && Model.Files.Any())
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Название файла</th>
+                        <th>Скачать</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var file in Model.Files)
+                    {
+                        <tr>
+                            <td>@file.FileName</td>
+                            <td>
+                                <a asp-page="/DownloadFile" asp-route-fileId="@file.Id" class="btn btn-secondary">Скачать</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>У вас еще нет загруженных файлов</p>
+        }
+    </body>
+    </html>
+}

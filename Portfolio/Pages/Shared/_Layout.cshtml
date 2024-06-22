@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Portfolio</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Portfolio.styles.css" asp-append-version="true" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.7.2/font/bootstrap-icons.min.css" rel="stylesheet">
+    <!-- Дополнительные стили для панели навигации -->
+    <style>
+        .sidebar {
+            height: 100%;
+            width: 15%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #2C2525;
+            padding-top: 20px;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar li {
+            padding: 10px 15px;
+            display: block;
+            color: #495057;
+            text-decoration: none;
+        }
+
+        .sidebar li:hover {
+            background-color: black;
+        }
+        .main-content{
+            margin-left: 15%;
+            width: 85%;
+        }
+
+        .icon-brand {
+            background-image: url('Icons/free-icon-font-square-m-10455426 4.png');
+            width: 44px;
+            height: 44px;
+            display: inline-block;
+            vertical-align: bottom;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar d-flex flex-column justify-content-between">
+        <a class="navbar-brand text-white" style="font-size: 32px;">
+            <i class="icon-brand"></i>
+            MellNotes
+        </a>
+        <ul style="padding-top: 20px;">
+            <partial name="_NavMenu" />
+        </ul>
+
+        <div class="mt-auto ">
+            <partial name="_LoginPartial" />
+        </div>
+    </div>
+
+    <div class="container-fluid main-content">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

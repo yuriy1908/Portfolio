@@ -1,0 +1,90 @@
+﻿@page
+@using Portfolio.Data.Identity
+@inject SignInManager<AplicationIdentityUser> SignInManager
+@model Portfolio.Pages.UploadFilesModel
+@{
+    ViewData["Title"] = "Upload Files";
+}
+<style>
+    .note-button {
+        width: 30%;
+        height: 50px;
+        border-radius: 15px;
+        font-size: 24px;
+        font-weight: 400;
+        margin: 0px 30px;
+        background: #82CDEE;
+        color: black;
+    }
+    .note-button:hover {
+        color: black;
+    }
+    .note{
+        width: 90% ;
+        height: 150px;
+        border-radius: 30px;
+        background: #82CDEE;
+        margin: 0px 30px;
+    }
+</style>
+@if (SignInManager.IsSignedIn(User)){
+    <html>
+    <head>
+        <title>@ViewData["Title"]</title>
+    </head>
+    <body>
+        <h1 style="padding: 20px 40px;">Заметки</h1>
+        <button type="button" class="btn btn-primary note-button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Добавить новую заметку
+        </button>
+        <br />
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Новая заметка</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="inputForm" method="post">
+                            <div class="mb-3">
+                                <label for="timeInput" class="form-label">Дата</label>
+                                <input type="date" class="form-control" id="dateInput" name="Date" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="timeInput" class="form-label">Время</label>
+                                <input type="time" class="form-control" id="timeInput" name="Time" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="textInput" class="form-label">Описание</label>
+                                <input type="text" class="form-control" id="textInput" name="Text" required>
+                            </div>
+                            <input type="hidden" name="Source" value="modalForm">
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                                <button type="submit" class="btn btn-primary">Добавить</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        @if (Model.NotesList == null || !Model.NotesList.Any())
+        {
+            <p>No notes available.</p>
+        }
+        else
+        {
+            @foreach (var product in Model.NotesList)
+            {
+                <div class="note">
+                    <h3 style="padding: 10px 10px">@product.Time @product.Date</h3>
+                    <h2 style="padding: 0px 10px">@product.Text</h2>
+                </div>
+                <br />
+            }
+        }
+    </body>
+    </html>
+}

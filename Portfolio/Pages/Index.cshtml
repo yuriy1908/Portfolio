@@ -1,0 +1,150 @@
+﻿@page
+@using Microsoft.AspNetCore.Identity
+@using Portfolio.Data.Identity
+@inject SignInManager<AplicationIdentityUser> SignInManager
+
+@model Portfolio.Pages.IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+<style>
+    .top-bar-index{
+        background-image: url("photo/ozero1.jpg");
+        height: 200px;
+        width: 105.7%;
+        margin-left: -5%;
+    }
+    .half-main{
+        height: 100%;
+        width: 50%;
+    }
+    .note-button1{
+        width: 60%;
+        height: 50px;
+        border-radius: 15px;
+        font-size: 24px;
+        font-weight: 400;
+        margin: 0px 30px;
+        background: #82CDEE;
+        color: black;
+    }
+    .note-button1:hover{
+        color: black;
+    }
+    .note-button2{
+        width: 60%;
+        height: 50px;
+        border-radius: 15px;
+        font-size: 24px;
+        font-weight: 400;
+        margin: 0px 30px;
+        background: #FFD089;
+        color: black;
+    }
+    .note-button2:hover{
+        background: #F59400;
+        color: black;
+    }
+    .note{
+        width: 90% ;
+        height: 150px;
+        border-radius: 30px;
+        background: #82CDEE;
+        margin: 0px 30px;
+    }
+    .action{
+        width: 90% ;
+        height: 150px;
+        border-radius: 30px;
+        background: #FFD089;
+        margin: 0px 30px;
+    }
+</style>
+<div class="top-bar-index container-fluid d-flex flex-column justify-content-center">
+    <h1 style="margin-left: 10%; color: white;">Добрый день @User.Identity?.Name</h1>
+    <h2 style="margin-left: 10%; color: white;">@Model.CurrentDateTime</h2>
+</div>
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="d-flex justify-content-around">
+        <div class="half-main">
+            <h3 style="padding: 30px 40px;">Мои заметки</h3>
+            <form action="/UploadFiles">
+                <button type="submit" class="btn btn-primary note-button1">
+                    Добавить новую заметку
+                </button/>
+            </form>
+            <br />
+            @if (Model.NotesList == null || !Model.NotesList.Any())
+            {
+                <p>У вас пока нет заметок</p>
+            }
+            else
+            {
+                @foreach (var product in Model.NotesList)
+                {
+                    <div class="note">
+                        <h3 style="padding: 10px 10px">@product.Time @product.Date</h3>
+                        <h2 style="padding: 0px 10px">@product.Text</h2>
+                    </div>
+                    <br />
+                }
+            }
+        </div>
+            <div class="half-main">
+            <h3 style="padding: 30px 40px;">Мои события</h3>
+            <button type="button" class="btn btn-primary note-button2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Добавить новое событие
+            </button>
+            <br />
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Новое событие</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="inputForm" method="post">
+                                <div class="mb-3">
+                                    <label for="timeInput" class="form-label">Дата</label>
+                                    <input type="date" class="form-control" id="dateInput" name="Date" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="textInput" class="form-label">Название события</label>
+                                    <input type="text" class="form-control" id="textInput" name="Name" required>
+                                </div>
+                                <input type="hidden" name="Source" value="modalForm">
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                                    <button type="submit" class="btn btn-primary">Добавить</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            @if (Model.ActionsList == null || !Model.ActionsList.Any())
+            {
+                <p>У вас пока нет заметок</p>
+            }
+            else
+            {
+                @foreach (var product in Model.ActionsList)
+                {
+                    <div class="action">
+                        <h3 style="padding: 10px 10px">@product.Date</h3>
+                        <h2 style="padding: 0px 10px">@product.Name</h2>
+                    </div>
+                    <br />
+                }
+            }
+        </div>
+    </div>
+}
+else
+{
+    <span>Вы не вошли</span>
+}

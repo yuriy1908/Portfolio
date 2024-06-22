@@ -1,0 +1,18 @@
+﻿@model Portfolio.Pages.Shared.NotesContainersModel
+@if (Model.NotesList == null || !Model.NotesList.Any())
+{
+    <p>No notes available.</p>
+}
+else
+{
+    @foreach (var product in Model.NotesList)
+    {
+        <div class="note">
+            <h3 style="padding: 10px 10px">@product.Time @product.Date</h3>
+            <h2 style="padding: 0px 10px">@product.Text</h2>
+        </div>
+        <br />
+    }
+}
+
+
